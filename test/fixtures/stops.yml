@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  stop_tag: MyString
+  stupid_tag: MyString
+  title: MyString
+  lat: MyString
+  lon: MyString
+  stop_id: 1
+
+two:
+  stop_tag: MyString
+  stupid_tag: MyString
+  title: MyString
+  lat: MyString
+  lon: MyString
+  stop_id: 1
