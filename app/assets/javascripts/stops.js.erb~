@@ -1,56 +1,18 @@
 $(document).on('ready', function(){
-	var client_ip;
-	var client_lat;
-  var client_lon;
-  $.getJSON("http://smart-ip.net/geoip-json?callback=?",
-    function(data){
-    	 client_ip = data.host;
-       client_lat = data.latitude;
-       client_lon = data.longitude;
-  
- 		var cloudmade = new CM.Tiles.CloudMade.Web({key: '7324c064b04d402eb2a58d68c935b63d'});
+	 
+	var client_lat =0;
+  var client_lon =0;
+  	
+  if(navigator.geolocation) {
+  	navigator.geolocation.getCurrentPosition(function(position) {
+		client_lat = position.coords.latitude;
+		client_lon = position.coords.longitude;
+		
+		var cloudmade = new CM.Tiles.CloudMade.Web({key: '7324c064b04d402eb2a58d68c935b63d'});
   	var map = new CM.Map('map', cloudmade);
   	map.setCenter(new CM.LatLng(client_lat, client_lon), 15);
 		map.addControl(new CM.LargeMapControl());
-	
-		
-		function distance (lat1, lon1, lat2, lon2) {
-			var rad = Math.PI / 180;
-			var R = 6371; // km
-			var dLat = (lat2-lat1) * rad ;
-			var dLon = (lon2-lon1) * rad;
-			var lat1 = lat1 * rad;
-			var lat2 = lat2 * rad;
 
-			var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-			var d = R * c;
-			return d
-		}
-		function dynamicSort(property) {
-   		 return function (a,b) {
-        return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-    		}
-		}
-	
-	/* Test dynamicSort 
-		a = [];
-		b = {}
-		b['distance'] = 10.32323;
-		a.push(b);
-		b = {}
-		b['distance'] = 10.158;
-		
-		a.push(b);
-		
-		b = {}
-		b['distance'] = 10.99;
-		a.push(b);
-		
-		a.sort(dynamicSort('distance'));
-		console.log(a);
-	*/
-	
 		var mapper = [];
 		<% Stop.all.each do |stop| %>
 			var stop_loc = [];
@@ -58,19 +20,19 @@ $(document).on('ready', function(){
 			stop_loc.push(<%=stop.lat.to_f%>);
 			temp ={}
 			temp['stop_id'] = <%=stop.id%>
-			temp['distance'] = distance(client_lat, client_lon, stop_loc[0], stop_loc[1]); 
+			var dist = distance(client_lat, client_lon, stop_loc[0], stop_loc[1]); 
+			temp['distance'] = dist;
+			console.log(dist);
 			temp['lat'] = <%=stop.lat%>;
 			temp['lon'] = <%=stop.lon%>;
 			temp['title'] = "<%=stop.title%>";
 			mapper.push(temp);
 			temp = {}
 		<% end %>
+
 		mapper.sort(dynamicSort('distance'));
-		
 		var map_me = [];
-		
 		var stops_displayed = 10;
-		
 		for (var i = 0; i <= stops_displayed-1; i++) {
 			map_me.push(mapper[i]);
 		}
@@ -87,9 +49,71 @@ $(document).on('ready', function(){
 			});
 			map.addOverlay(myMarker);
 		}
+
+
+			 
+  }, function() {
+            	alert('success');
+          });
+  } else {
+     // Browser doesn't support Geolocation
+     alert('geolocation not supported by your browser');
+  }
+      
+
+
+/* HELPER FUNCTIONS */
+
+
+
+	function distance (lat1, lon1, lat2, lon2) {
+			
+			var a = lat1-lat2 ;
+			var b = lon1 - lon2;
+			
+			return Math.sqrt(a*a + b*b );
+			
+			
+			/*
+			var rad = Math.PI / 180;
+			var R = 6371; // km
+			var dLat = (lat2-lat1) * rad ;
+			var dLon = (lon2-lon1) * rad;
+			var lat1 = lat1 * rad;
+			var lat2 = lat2 * rad;
+
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c;
+			return d
+			*/
+		}
 		
-	});
+	function dynamicSort(property) {
+  	 return function (a,b) {
+       return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+   		}
+	}	
+
+
+		/* Test dynamicSort 
+		a = [];
+		b = {}
+		b['distance'] = 10.32323;
+		a.push(b);
+		b = {}
+		b['distance'] = 10.158;
 		
-  	
+		a.push(b);
+		
+		b = {}
+		b['distance'] = 10.99;
+		a.push(b);
+		
+		a.sort(dynamicSort('distance'));
+		console.log(a);
+		*/
+
 });
+
 
