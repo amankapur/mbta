@@ -18,6 +18,9 @@ body{
 .container {
 	#map {
 		float: right;
+		width: 500px;
+		height: 500px;
+		
 	}
 	ul {
 			margin-top: 2%;
