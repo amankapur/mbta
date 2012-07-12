@@ -1,7 +1,7 @@
-<h1> Nearest Stops are </h1>
+<h1> MBTA Bus Finder </h1>
 
+<ul> 
 
+</ul>
 
-<div id="cm-example" style="width: 500px; height: 500px"></div>
-	
-
+<div class="map" id="map"> </div>
