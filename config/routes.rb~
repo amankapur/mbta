@@ -1,6 +1,5 @@
 Mbta2::Application.routes.draw do
   get "stops/index"
-  root :to => 'stops#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -14,12 +14,8 @@ class StopsController < ApplicationController
   		stop_loc << stop.lon.to_i
   		map[stop.id] = self.distance(my_loc, stop_loc) 
   	end
-  	a = Hash[map.sort_by { |k,v| v }[0..2]]	
-  	@map_me = []
-  	
-  	@map_me << Stop.find(a.keys[0])
-  	@map_me << Stop.find(a.keys[1])
-  	@map_me << Stop.find(a.keys[2])
+  	@map_me = Hash[map.sort_by { |k,v| v }[0..2]]	
+  
   end
   	  	 	
   def distance loc1, loc2
