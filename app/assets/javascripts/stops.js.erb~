@@ -27,18 +27,43 @@ $(document).on('ready', function(){
 			var d = R * c;
 			return d
 		}
+		function dynamicSort(property) {
+   		 return function (a,b) {
+        return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+    		}
+		}
 		
-		
-		var map = {};
+		var mapper = [];
 		<% Stop.all.each do |stop| %>
 			var stop_loc = [];
-			stop_loc.push(<%=stop.lat.to_i%>);
-			stop_loc.push(<%=stop.lat.to_i%>);
-			console.log(<%= stop.lat.to_i %>);
-			map[<%=stop.id%>] = distance(client_lat, client_lon, stop_loc[0], stop_loc[1]);
+			stop_loc.push(<%=stop.lat.to_f%>);
+			stop_loc.push(<%=stop.lat.to_f%>);
+			temp ={}
+			temp['stop_id'] = <%=stop.id%>
+			temp['distance'] = distance(client_lat, client_lon, stop_loc[0], stop_loc[1]); 
+			temp['lat'] = <%=stop.lat%>;
+			temp['lon'] = <%=stop.lon%>;
+			mapper.push(temp);
+			temp = {}
 		<% end %>
-		console.log (map);
+		mapper.sort(dynamicSort('distance'));
+		
+		var map_me = [];
+		map_me.push(mapper[0]);
+		map_me.push(mapper[1]);
+		map_me.push(mapper[2]);
+		
+		console.log(map_me);
 	
+		for (var i = 0; i <= map_me.length-1; i++) {
+			console.log(i);
+			var myMarkerLatLng = new CM.LatLng(map_me[i].lat, map_me[i].lon);
+			var myMarker = new CM.Marker(myMarkerLatLng, {
+				title: "Bus Stop id : " + map_me[i].stop_id
+			});
+			map.addOverlay(myMarker);
+		}
+		
 //		$.ajax({
 //  		type: 'POST',
  // 		url: '/',
