@@ -1,12 +1,15 @@
 $(document).on('ready', function(){
+	var client_ip;
 	var client_lat;
   var client_lon;
   $.getJSON("http://smart-ip.net/geoip-json?callback=?",
     function(data){
+    	 client_ip = data.host;
        client_lat = data.latitude;
        client_lon = data.longitude;
   });
 
+  alert(client_ip);
   
 	var cloudmade = new CM.Tiles.CloudMade.Web({key: '7324c064b04d402eb2a58d68c935b63d'});
   var map = new CM.Map('cm-example', cloudmade);
