@@ -1,0 +1,4 @@
+
+  			$("ul").append("<li>" + <%=@map_me[0].lat %> + " , " + <%=@map_me[0].lon %> + "</li>");
+  			$('ul').append("<li>" + <%=@map_me[1].lat %> + " , " + <%=@map_me[1].lon %> + "</li>");
+  			$('ul').append("<li>" + <%=@map_me[2].lat %> + " , " + <%=@map_me[2].lon %> + "</li>");

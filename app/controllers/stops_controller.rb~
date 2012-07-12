@@ -1,11 +1,13 @@
 class StopsController < ApplicationController
 
   def index
-  	result = request.location
-  	
-  	@my_loc = []
-  	@my_loc << result.latitude.to_i
-  	@my_loc << result.longitude.to_i
+  	if params[:lat] == nil
+  		return
+  	end
+  	my_loc = []
+  	my_loc << params[:lat].to_i
+  	my_loc << params[:lon].to_i
+  	puts params
   	
   	map = {}
   	@stops = Stop.all
@@ -22,8 +24,16 @@ class StopsController < ApplicationController
   	@map_me << Stop.find(a.keys[0])
   	@map_me << Stop.find(a.keys[1])
   	@map_me << Stop.find(a.keys[2])
+  	puts 'MAP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe'
+  	puts @map_me[0].lat
+  	puts @map_me[1].lon
+  
   end
-  	  	 	
+  
+  def map_me
+  	@map_me
+  end	  
+  	 	
   def distance loc1, loc2
   	rad = Math::PI / 180
   	lat1, lon1 = loc1

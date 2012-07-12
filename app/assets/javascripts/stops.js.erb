@@ -32,9 +32,9 @@ $(document).on('ready', function(){
 		var map = {};
 		<% Stop.all.each do |stop| %>
 			var stop_loc = [];
-			stop_loc.push(<%=stop.lat.to_i%>);
-			stop_loc.push(<%=stop.lat.to_i%>);
-			console.log(<%= stop.lat.to_i %>);
+			stop_loc.push(<%=stop.lat.to_f%>);
+			stop_loc.push(<%=stop.lat.to_f%>);
+			console.log(<%= stop.lat.to_f %>);
 			map[<%=stop.id%>] = distance(client_lat, client_lon, stop_loc[0], stop_loc[1]);
 		<% end %>
 		console.log (map);

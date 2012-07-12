@@ -1,29 +1,14 @@
 class StopsController < ApplicationController
 
   def index
-  	result = request.location
-  	
-  	@my_loc = []
-  	@my_loc << result.latitude.to_i
-  	@my_loc << result.longitude.to_i
-  	
-  	map = {}
-  	@stops = Stop.all
-  	
-  	@stops.each do |stop|
-  		stop_loc = []
-  		stop_loc << stop.lat.to_i
-  		stop_loc << stop.lon.to_i
-  		map[stop.id] = self.distance(@my_loc, stop_loc) 
-  	end
-  	a = Hash[map.sort_by { |k,v| v }[0..2]]	
-  	@map_me = []
-  	
-  	@map_me << Stop.find(a.keys[0])
-  	@map_me << Stop.find(a.keys[1])
-  	@map_me << Stop.find(a.keys[2])
+		@all_stops = Stop.all
+  
   end
-  	  	 	
+  
+  def map_me
+  	@map_me
+  end	  
+  	 	
   def distance loc1, loc2
   	rad = Math::PI / 180
   	lat1, lon1 = loc1

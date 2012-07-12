@@ -1,6 +1,12 @@
 Mbta2::Application.routes.draw do
   get "stops/index"
+  post "stops/index"
+  get "stops/map_me"
   root :to => 'stops#index'
+  
+  match "/stops/map_me" => "stops#map_me"
+  match "/map_me" => "stops#map_me"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
