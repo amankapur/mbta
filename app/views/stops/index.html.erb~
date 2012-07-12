@@ -8,11 +8,13 @@
 </ul>
 
 <div id="cm-example" style="width: 500px; height: 500px"></div>
-
+	
   <script type="text/javascript" src="http://tile.cloudmade.com/wml/latest/web-maps-lite.js"></script>
   <script type="text/javascript">
-    var cloudmade = new CM.Tiles.CloudMade.Web({key: '8ee2a50541944fb9bcedded5165f09d9'});
+    var cloudmade = new CM.Tiles.CloudMade.Web({key: '7324c064b04d402eb2a58d68c935b63d'});
     var map = new CM.Map('cm-example', cloudmade);
     map.setCenter(new CM.LatLng(51.514, -0.137), 15);
+		map.addControl(new CM.LargeMapControl());
+	
   </script>
 

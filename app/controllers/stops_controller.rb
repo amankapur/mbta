@@ -1,9 +1,11 @@
 class StopsController < ApplicationController
 
   def index
-  	my_loc = []
-  	my_loc << params[:lat].to_i
-  	my_loc << params[:lon].to_i
+  	result = request.location
+  	
+  	@my_loc = []
+  	@my_loc << result.latitude.to_i
+  	@my_loc << result.longitude.to_i
   	
   	map = {}
   	@stops = Stop.all
@@ -12,7 +14,7 @@ class StopsController < ApplicationController
   		stop_loc = []
   		stop_loc << stop.lat.to_i
   		stop_loc << stop.lon.to_i
-  		map[stop.id] = self.distance(my_loc, stop_loc) 
+  		map[stop.id] = self.distance(@my_loc, stop_loc) 
   	end
   	a = Hash[map.sort_by { |k,v| v }[0..2]]	
   	@map_me = []
