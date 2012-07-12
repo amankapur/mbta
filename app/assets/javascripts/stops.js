@@ -1,13 +1,14 @@
 $(document).on('ready', function(){
 	var client_ip;
-	$.getJSON("http://jsonip.appspot.com?callback=?",
+	$.getJSON("http://smart-ip.net/geoip-json?callback=?",
     function(data){
        client_ip = data.ip;
   });
   var client_lat;
   var client_lon;
   alert(client_ip);
-  $.getJSON("http://api.hostip.info/get_html.php?ip=" + client_ip + "&position=true", 
+  $.get("http://api.hostip.info/get_html.php?ip=" + client_ip + "&position=true", 
+  		
   		function(data) {
   			client_lat = data.lat
   			client_lon = data.lng
