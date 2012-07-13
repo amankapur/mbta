@@ -61,27 +61,27 @@ $(document).on('ready', function(){
 						curr_marker = mymarkers[i];
 						}
 				}
-				console.log(stop_url);
+				//console.log(stop_url);
 				$.get(stop_url, 
 					function(data){
 						
-							window.test_xml = "<body> <predictions agencyTitle='San Francisco Muni, CA' routeTag='N' routeCode='1' routeTitle='N - Judah' stopTitle='Civic Center Station Outbound'> <direction title='Outbound toward Ocean Beach' > <prediction seconds='563' minutes='9' epochTime='1229637162309' isDeparture='false' dirTag='N__OB2' block='9703' /> <prediction seconds='1250' minutes='20' epochTime='1229638264817' isDeparture='false' dirTag='N__OB2' block='9702' /> </direction> <direction title='Outbound to 34th Ave' > <prediction seconds='123' minutes='2' epochTime='1229637162309' isDeparture='true' dirTag='N__OB1' block='9708' /> <prediction seconds='621' minutes='10' epochTime='1229637162309' isDeparture='true' dirTag='N__OB1' block='9707' /> </direction> <message text='No Muni metro service btwn Caltrain/Embarc. &amp; Castro after 10pm Mon-Fri. Bus service provided.'/></predictions></body>"
-							a = $(test_xml); // change to 'a = data'
+							//window.test_xml = "<body> <predictions agencyTitle='San Francisco Muni, CA' routeTag='N' routeCode='1' routeTitle='N - Judah' stopTitle='Civic Center Station Outbound'> <direction title='Outbound toward Ocean Beach' > <prediction seconds='563' minutes='9' epochTime='1229637162309' isDeparture='false' dirTag='N__OB2' block='9703' /> <prediction seconds='1250' minutes='20' epochTime='1229638264817' isDeparture='false' dirTag='N__OB2' block='9702' /> </direction> <direction title='Outbound to 34th Ave' > <prediction seconds='123' minutes='2' epochTime='1229637162309' isDeparture='true' dirTag='N__OB1' block='9708' /> <prediction seconds='621' minutes='10' epochTime='1229637162309' isDeparture='true' dirTag='N__OB1' block='9707' /> </direction> <message text='No Muni metro service btwn Caltrain/Embarc. &amp; Castro after 10pm Mon-Fri. Bus service provided.'/></predictions></body>"
+						//	a = $(test_xml); // change to 'a = data'
+							window.a = $(data);
 							b = a.find('direction');
-							console.log(b);
+							//console.log(b);
 						
 							var crazy_html ='';
 						
-							crazy_html += '<h3>' + b[0].getAttribute('title') + '</h3><br/>';
-							window.c = $(b[0]).find('prediction')[0];							
-							crazy_html += '<p>' + c.getAttribute('minutes') +' minutes and ' + c.getAttribute('seconds') + 'seconds' +'</p';
-							
-							crazy_html += '<br /><h3>' + b[1].getAttribute('title') + '</h3><br/>';
-							window.c = $(b[1]).find('prediction')[0];							
-							crazy_html += '<p>' + c.getAttribute('minutes') +' minutes and ' + c.getAttribute('seconds') + 'seconds' +'</p';
-							
-							curr_marker.openInfoWindow(crazy_html);
-							
+						for (var i =0; i<=b.length-1; i++){
+							console.log(b[i]);
+							crazy_html += '<h3>' + b[i].getAttribute('title') + '</h3><br/>';
+							console.log(crazy_html);
+							window.c = $(b[i]).find('prediction')[0];
+							window.seconds = parseInt(c.getAttribute('seconds')) - parseInt(parseInt(c.getAttribute('minutes')) * 60);
+							crazy_html += '<p>' + c.getAttribute('minutes') +' minutes and ' + seconds + 'seconds' +'</p> <br ?>';
+						}
+						curr_marker.openInfoWindow(crazy_html);
 					});
 			
 				
@@ -102,7 +102,7 @@ $(document).on('ready', function(){
 			});
 			mymarkers.push(myMarker2);
 			 			map.addOverlay(myMarker2);
-			 			mymarkers[mymarkers.length-1].openInfoWindow('<h2 width="100px" style="text-align:center"> YOUR LOCATION </h2>');
+			 			mymarkers[mymarkers.length-1].openInfoWindow('<h2 style="text-align:center"> YOUR LOCATION </h2>');
   }, function() {
             	alert('success');
           });
