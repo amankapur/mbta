@@ -12,10 +12,11 @@ $(document).on('ready', function(){
 				
 		var cloudmade = new CM.Tiles.CloudMade.Web({key: '7324c064b04d402eb2a58d68c935b63d'});
   	var map = new CM.Map('map', cloudmade);
-  	map.setCenter(new CM.LatLng(client_lat, client_lon), 15);
+  	map.setCenter(new CM.LatLng(client_lat, client_lon), 17);
 		map.addControl(new CM.LargeMapControl());
 
 		var mapper = [];
+		
 		<% Stop.all.each do |stop| %>
 			var stop_loc = [];
 			stop_loc.push(<%=stop.lat.to_f%>);
@@ -36,25 +37,24 @@ $(document).on('ready', function(){
 		var stops_displayed = 10;
 		for (var i = 0; i <= stops_displayed-1; i++) {
 			map_me.push(mapper[i]);
-			console.log(mapper[i].lat);
-			console.log(mapper[i].lon);
-			
-			$('ul').append("<li> <a href='#page1'> " + mappper[i].title + " </a> </li>");
-		
-		}
+
+	}
 	
 		for (var i = 0; i <= map_me.length-1; i++) {
 			var myMarkerLatLng = new CM.LatLng(map_me[i].lat, map_me[i].lon);
 			var myMarker = new CM.Marker(myMarkerLatLng, {
 					title: 'click for bus details'
 			});
-			var stop_url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=mbta&stopId=' + map_me[i].stop_id;
+			var stop_url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=mbta&stopId=' + map_me[i].stop_id ;
 			CM.Event.addListener(myMarker, 'click', function(latlng, stop_url) {
-				var stop_data = $.ajax({
-					url: stop_url,
-					method: 'GET'
-				});
-				console.log(stop_data);
+				
+				$.getJSON(stop_url, 
+					function(data){
+							alert(data);
+					});
+			
+				
+			
 			});
 		
 			map.addOverlay(myMarker);

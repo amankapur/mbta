@@ -5,15 +5,12 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="http://tile.cloudmade.com/wml/latest/web-maps-lite.js"></script>
 </head>
 <body>
-<div class="container">
-	<div class="hero-unit">
+<div id = "map"></div>
 	<%= yield %>
-	</div>
-</div>
 </body>
 </html>
