@@ -8,5 +8,6 @@ class StopsController < ApplicationController
   def map_me
   	@map_me
   end	  
-
+	
+	
 end
