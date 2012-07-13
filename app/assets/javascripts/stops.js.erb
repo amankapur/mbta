@@ -38,9 +38,7 @@ $(document).on('ready', function(){
 			map_me.push(mapper[i]);
 			console.log(mapper[i].lat);
 			console.log(mapper[i].lon);
-		}
-				
-		for (var i = 0; i<=map_me.length-1; i++){
+			
 			$('ul').append("<li> <a href='#page1'> " + map_me[i].title + " </a> </li>");
 		
 		}
@@ -48,11 +46,19 @@ $(document).on('ready', function(){
 		for (var i = 0; i <= map_me.length-1; i++) {
 			var myMarkerLatLng = new CM.LatLng(map_me[i].lat, map_me[i].lon);
 			var myMarker = new CM.Marker(myMarkerLatLng, {
-				title: "Bus Stop id : " + map_me[i].stop_id
+					title: 'click for bus details'
 			});
+			var stop_url = 'http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=mbta&stopId=' + map_me[i].stop_id;
+			CM.Event.addListener(myMarker, 'click', function(latlng, stop_url) {
+				var stop_data = $.ajax({
+					url: stop_url,
+					method: 'GET'
+				});
+				console.log(stop_data);
+			});
+		
 			map.addOverlay(myMarker);
 		}
-
 
 			 
   }, function() {
